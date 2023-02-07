@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>jsonFormat注解</title>
+      <link href="/2023/02/07/jsonFormat%E6%B3%A8%E8%A7%A3/"/>
+      <url>/2023/02/07/jsonFormat%E6%B3%A8%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="JsonFormat注解"><a href="#JsonFormat注解" class="headerlink" title="JsonFormat注解"></a>JsonFormat注解</h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/5563/image-20230207194439027.png" alt="image-20230207194439027"></p><h3 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h3><p>在用Vue的组件库ElementUi的日期时间选择器，datetimepicker,发送给后端请求报400错误，后端用实体类接受参数，日期格式为LocalDateTime类型，本来是可以接受的，但是由于LocalDateTime带T，因此前端会接受到带T的时间格式，不美观，因此，我设置JsonFormat指定后端传输给前端的参数为yyyy-MM-dd HH:mm:ss这个格式。Ok，前端列表格式确实已经改变，但是当日期时间选择器再次发送axios请求时，报400错误，说明方法或者参数类型不匹配，就是加了注解后才不匹配，因此我去ui组件库发现了一个日期时间选择器可以设置的属性。</p><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/5563/image-20230207194941580.png" alt="image-20230207194941580"></p><h3 id="2-注意事项"><a href="#2-注意事项" class="headerlink" title="2.注意事项"></a>2.注意事项</h3><p>注意是第二个，我本来设置了第一个，结果卡了好久，我看第一个默认值就是yyyy-MM-dd HH:mm:ss这种，结果它是显示的格式，传值格式是第二个，因为第二个默认是Date类型，指定为yyyy-MM-dd HH:mm:ss就可以了。</p><p>问题解决：前端既可以直接收到yyyy-MM-dd HH:mm:ss,后端也可以用LocalDateTime接受，之所以不设置string接受日期，是因为，我业务逻辑中有加天数的逻辑，只能用日期类的plus方法添加。</p><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/5563/image-20230207195236767.png" alt="image-20230207195236767"></p><p>我本来在全局设置了json格式化的，结果直接失效了，所以在实体类上的属性上加了单独的jsonFormat。</p><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/5563/image-20230207195329224.png" alt="image-20230207195329224"></p><h3 id="3-总结和建议-重点"><a href="#3-总结和建议-重点" class="headerlink" title="3.总结和建议(重点)"></a>3.总结和建议(重点)</h3><p>建议还是有需要的实体类单独加上注解，我也不知道为啥全局配置失效了。</p><p>@DateTimeFormat是用于接受前端发送的时间格式</p><p>@JsonFormat是后端传输给前端指定的时间格式</p><p>一定要加上GMT+8，不然到时候你业务查询变成格林威治时间，少北京时间8小时。</p><p>建议单独用注解的都加上，数据库也设置好（当然这得看mysql5.7和mysql8不一样)</p><p>组件库虽好，还是得看仔细再用，要是vue3直接elementplus或者AntDesign(Vue版)</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> -后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> -注解 -Bug </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>GitHub美化教程</title>
       <link href="/2023/01/15/GitHub%E7%BE%8E%E5%8C%96%E6%95%99%E7%A8%8B/"/>
       <url>/2023/01/15/GitHub%E7%BE%8E%E5%8C%96%E6%95%99%E7%A8%8B/</url>
