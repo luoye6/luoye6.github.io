@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>2023年上半年学习规划</title>
+      <link href="/2023/03/11/2023%E5%B9%B4%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92/"/>
+      <url>/2023/03/11/2023%E5%B9%B4%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="2023年上半年学习规划"><a href="#2023年上半年学习规划" class="headerlink" title="2023年上半年学习规划"></a>2023年上半年学习规划</h2><h3 id="1-已学技术栈和获奖情况"><a href="#1-已学技术栈和获奖情况" class="headerlink" title="1.已学技术栈和获奖情况"></a>1.已学技术栈和获奖情况</h3><p>目前大二下学期，我是从大一下学期开始学习Java,上半学期学了C语言，然后去C语言网刷了大概200-300题，然后大一上绩点4.0+。大一下学Java，然后看韩老师的JavaSE900集，花了1个半月的时间。然后开始陆续攻克SSM框架，SpringBoot框架等等。</p><p><strong>技术栈:</strong></p><ul><li>前端: Vue2和Vue3+TS,组件库ElementUi,Ant Design Pro,React也学习过，大多数都忘了，因为没做过完整项目。</li><li>后端:SSM,SpringBoot,MP,SpringCloud</li><li>消息队列: RabbitMq</li><li>搜索引擎：ES</li><li>部署: Docker 和 宝塔 (Vercel其次)</li><li>缓存: Redis</li><li>数据库：MySQL</li><li>分布式版本控制: Git</li><li>后端包管理: Maven</li><li>前端包管理: Npm,Yarn</li></ul><p><strong>获奖情况:</strong></p><ul><li>没参加过挑战者杯，互联网+，感觉是PPT大赛，而且没人带，我喜欢做技术，做PPT和Word当主负责人感觉会很累。</li><li>四六级考过 计算机二级（随便考的)</li></ul><h3 id="2-学习计划"><a href="#2-学习计划" class="headerlink" title="2.学习计划"></a>2.学习计划</h3><ul><li>备考软件中级(听说不难，刷题就完事)</li><li>每日一道力扣+复习做过的题目</li><li>操作系统和计算机网络 每天花1小时看下，增加下知识的广度。</li><li>将鱼皮的API接口项目和聚合搜索项目做完，因为我自己已经制定好了简历，然后按简历写的去复习八股文之类的，到时候结合鱼皮的牛皮项目直接起飞~</li><li>空闲时间每天跑两圈，然后拉下引体向上（10+）</li><li>将重心从绩点转移到技术栈上，大一是校二等奖，说实话奖学金也就图一乐，这含金量&#x3D;…..，绩点我现在稳定3.7-3.8差不多，4.0+太耗费时间了，不如转到技术栈的提升，或者去参与其他比赛。</li><li>每天准备八股文复习20题,准备暑假实习</li><li>在个人博客上继续更新笔记</li><li>帮助星球小伙伴解答问题</li><li>看Java并发编程的艺术这本书籍</li></ul><h3 id="3-项目和个人博客"><a href="#3-项目和个人博客" class="headerlink" title="3.项目和个人博客"></a>3.项目和个人博客</h3><p><strong>项目:</strong></p><p>一月份到2月份完成了个人设计的图书管理系统，从数据库表设计，然后前端页面，后端接口，部署服务器，申请SSL证书，搭建图床，由于鱼皮图床挂了，我把项目的图片和个人博客的图片，放在我自己的图床上了，然后设置了防盗链和CDN缓存。</p><p><a href="https://abc.xiaobaitiao.club/#/login"><strong>项目部署地址</strong></a></p><p>欢迎在读者留言组件进行留言（采用的是移动弹幕形式)</p><p><a href="https://github.com/luoye6/Vue_BookManageSystem_backend"><strong>项目GitHub地址</strong></a></p><p><a href="https://gitee.com/falle22222n-leaves/vue_-book-manage-system_backend"><strong>项目Gitee地址</strong></a></p><p>欢迎⭐Star和⭐互关</p><p><a href="https://luoye6.github.io/"><strong>个人博客地址</strong></a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> -后端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> -学习规划 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Redis学习笔记(2)</title>
       <link href="/2023/02/26/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(2)/"/>
       <url>/2023/02/26/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(2)/</url>
