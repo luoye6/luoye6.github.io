@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>设计模式读书笔记第一期 | 小白条的个人博客</title><meta name="author" content="xiaobaitiao"><meta name="copyright" content="xiaobaitiao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="设计模式读书笔记第一期工厂模式工厂模式大致结构  图中实现了一个计算器的功能 Operation为抽象父类,Sub,Add两个子类去继承抽象父类，然后实现抽象父类的方法，抽象父类的方法可以是有实现的方法，因此我这边用了一个具体实现的方法，写成抽象方法也可以，但子类就需要必须实现了，而非抽象方法不一定要实现，我这种只写了两个功能，4个功能也是一样的，为了篇幅减少一下。 OperationFactor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式读书笔记第一期">
+<meta property="og:url" content="https://luoye6.github.io/2023/03/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="小白条的个人博客">
+<meta property="og:description" content="设计模式读书笔记第一期工厂模式工厂模式大致结构  图中实现了一个计算器的功能 Operation为抽象父类,Sub,Add两个子类去继承抽象父类，然后实现抽象父类的方法，抽象父类的方法可以是有实现的方法，因此我这边用了一个具体实现的方法，写成抽象方法也可以，但子类就需要必须实现了，而非抽象方法不一定要实现，我这种只写了两个功能，4个功能也是一样的，为了篇幅减少一下。 OperationFactor">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xxx.xiaobaitiao.icu/img/icu/202312012130868.jpg">
+<meta property="article:published_time" content="2023-03-31T13:24:23.000Z">
+<meta property="article:modified_time" content="2023-12-01T13:38:34.361Z">
+<meta property="article:author" content="xiaobaitiao">
+<meta property="article:tag" content="-设计模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xxx.xiaobaitiao.icu/img/icu/202312012130868.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://luoye6.github.io/2023/03/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: xiaobaitiao","link":"链接: ","source":"来源: 小白条的个人博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '设计模式读书笔记第一期',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-12-01 21:38:34'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic.yupi.icu/5563/202401011320066.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://xxx.xiaobaitiao.icu/img/icu/202312012130868.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="小白条的个人博客"><span class="site-name">小白条的个人博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">设计模式读书笔记第一期</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-31T13:24:23.000Z" title="发表于 2023-03-31 21:24:23">2023-03-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-01T13:38:34.361Z" title="更新于 2023-12-01 21:38:34">2023-12-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%90%8E%E7%AB%AF/">-后端</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="设计模式读书笔记第一期"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="设计模式读书笔记第一期"><a href="#设计模式读书笔记第一期" class="headerlink" title="设计模式读书笔记第一期"></a>设计模式读书笔记第一期</h2><h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><h4 id="工厂模式大致结构"><a href="#工厂模式大致结构" class="headerlink" title="工厂模式大致结构"></a>工厂模式大致结构</h4><p><img src="http://xxx.xiaobaitiao.club/project/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F1.png" alt="image-20230331205536431"></p>
+<ul>
+<li>图中实现了一个计算器的功能</li>
+<li>Operation为抽象父类,Sub,Add两个子类去继承抽象父类，然后实现抽象父类的方法，抽象父类的方法可以是有实现的方法，因此我这边用了一个具体实现的方法，写成抽象方法也可以，但子类就需要必须实现了，而非抽象方法不一定要实现，我这种只写了两个功能，4个功能也是一样的，为了篇幅减少一下。</li>
+<li>OperationFactory作为一个简单的工厂，接受字符串，然后再给予相对应的实现子类的实例对象。比如你写”+”,就对应new Add()。</li>
+</ul>
+<h4 id="工厂的具体实现方法"><a href="#工厂的具体实现方法" class="headerlink" title="工厂的具体实现方法"></a>工厂的具体实现方法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OperationFactory</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Operation <span class="title function_">createOperate</span><span class="params">(String operate)</span>&#123;</span><br><span class="line">        <span class="type">Operation</span> <span class="variable">op</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (operate)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;+&quot;</span>:</span><br><span class="line">                op = <span class="keyword">new</span> <span class="title class_">Add</span>();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;-&quot;</span>:</span><br><span class="line">                op = <span class="keyword">new</span> <span class="title class_">Sub</span>();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> op;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好处：其实很明显，本来这段switch case,你可能会放在控制层或者业务层，而将这些代码抽象出来，放在一个工厂中，输入一个你想要的操作，便会给你相对应的实例对象，减少了耦合度。但结合下面要讲的策略模式，还可以进一步减少耦合度。</p>
+<h4 id="测试方法"><a href="#测试方法" class="headerlink" title="测试方法"></a>测试方法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestFactory</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Operation</span> <span class="variable">operate</span> <span class="operator">=</span> OperationFactory.createOperate(<span class="string">&quot;+&quot;</span>);</span><br><span class="line">        <span class="type">double</span> <span class="variable">result</span> <span class="operator">=</span> operate.getResult(<span class="number">520</span>, <span class="number">1314</span>);</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><h4 id="策略模式大致结构图"><a href="#策略模式大致结构图" class="headerlink" title="策略模式大致结构图"></a>策略模式大致结构图</h4><p><img src="http://xxx.xiaobaitiao.club/project/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F1.png" alt="image-20230331211346849"></p>
+<ul>
+<li><p>图中CashSuper的抽象父类，其中acceptCash是抽象方法</p>
+</li>
+<li><p>三个具体子类继承了CashSuper并且重写了CashSuper的方法,CashNormal表示在商场正常购买商品，double price价格,int num数量,CashReturn 代表买xxx返xxx，值得注意的是他们接受的参数相同，只是具体实现不同而已，CashRebate代表打折情况。</p>
+</li>
+<li><p>CashContext里面其实还包含了一个构造器</p>
+</li>
+<li><p>用工厂模式+策略模式结合，将CashContext用作一个Context上下文，用来维护CashSuper这个变量，将构造器的参数改变一个就可以实现传输功能类型，然后将变量赋值成相对应的实现子类。用getResult方法获取具体结果，这样一来获取具体对象交给上下文，具体执行方法也交给上下文。那么客户端只要知道Context一个上下文就可以直接获取结果。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CashContext</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> CashSuper cs;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CashContext</span><span class="params">(<span class="type">int</span> cashType)</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> (cashType)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                <span class="built_in">this</span>.cs = <span class="keyword">new</span> <span class="title class_">CashNormal</span>();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                <span class="built_in">this</span>.cs = <span class="keyword">new</span> <span class="title class_">CashRebate</span>(<span class="number">0.8</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">                <span class="built_in">this</span>.cs = <span class="keyword">new</span> <span class="title class_">CashReturn</span>(<span class="number">300</span>,<span class="number">100</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getResult</span><span class="params">(<span class="type">double</span> price,<span class="type">int</span> num)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.cs.acceptCash(price,num);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试方法-1"><a href="#测试方法-1" class="headerlink" title="测试方法"></a>测试方法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestFactoryAndStrategy</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">CashContext</span> <span class="variable">cashContext</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CashContext</span>(<span class="number">1</span>);</span><br><span class="line">        <span class="type">double</span> <span class="variable">result</span> <span class="operator">=</span> cashContext.getResult(<span class="number">400</span>, <span class="number">2</span>);</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="对比一下工厂模式"><a href="#对比一下工厂模式" class="headerlink" title="对比一下工厂模式"></a>对比一下工厂模式</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestFactory</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Operation</span> <span class="variable">operate</span> <span class="operator">=</span> OperationFactory.createOperate(<span class="string">&quot;+&quot;</span>);</span><br><span class="line">        <span class="type">double</span> <span class="variable">result</span> <span class="operator">=</span> operate.getResult(<span class="number">520</span>, <span class="number">1314</span>);</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>工厂模式需要知道createOperate这个方法，而策略+工厂模式，直接利用上下文构造器传入参数，然后直接获取对应的实现子类，直接调用方法，降低了客户端的使用难度。调用起来更方法，后面像鱼皮讲的适配器模式，门面模式，大致都相同，为了简单调用，降低耦合，扩展性更强。</p>
+<h2 id="⭐项目和个人博客"><a href="#⭐项目和个人博客" class="headerlink" title="⭐项目和个人博客"></a>⭐项目和个人博客</h2><p><strong>项目:</strong></p>
+<p>项目是比较老套的图书管理系统，SpringBoot+Vue2+ElementUI</p>
+<p>套个皮，直接改下数据库，宠物管理系统，车辆管理系统，甜品管理系统，全部都一个样。</p>
+<p>主要是管理系统的话，后端用组件库比较方便,我用的elementUI,推荐可以试一试Ant Design Vue,Vue也是可以利用后端swagger直接生成接口的，前提要VUE3+TS可以玩。</p>
+<p>亮点可能是:1.登录拦截器(也可以用AOP的切面玩)2.Token(可以增加redis)3.Echarts可以展示借阅量，你也可以增加活跃用户4.里面内置爬虫，可以爬数据5.swagger+knife4j测试接口</p>
+<p>可扩展点：可以增加图书推荐，进行大数据分析，这个应该是不难的，或者你添加ES,然后做下搜索引擎的优化，这个也不难，按后端数据库表，构建下索引就行，然后你可以设置定时任务进行数据库和ES同步，或者直接logstash中间件传输、处理数据也行，使用插件比较方便。你还阔以添加图书秒杀，用上RabbitMQ。但一切技术其实是用于业务，其实单个人项目完全用不着消息队列，redis，因为毫无并发量可言。毕设做微服务属实有点离谱了，属于是只是用技术，但是实际业务完全不至于用上，建议还是做个小而美的项目或者比较有创新点的和GPT接轨的项目，把GPT当作一个后台接口测试。</p>
+<p>小建议：不用焦虑chatGPT,反而是要学习如何将GPT和学习和工作结合，会使用好AI的人，比不会用AI的人淘汰率应该会小很多（个人想法)。</p>
+<p><a target="_blank" rel="noopener" href="https://abc.xiaobaitiao.club/#/login"><strong>项目部署地址</strong></a></p>
+<p>欢迎在读者留言组件进行留言（采用的是移动弹幕形式)</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/luoye6/Vue_BookManageSystem_backend"><strong>项目GitHub地址</strong></a></p>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/falle22222n-leaves/vue_-book-manage-system_backend"><strong>项目Gitee地址</strong></a></p>
+<p>欢迎⭐Star和⭐互关，有问题可以私信我咯</p>
+<p><a href="https://luoye6.github.io/"><strong>个人博客地址</strong></a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://luoye6.github.io">xiaobaitiao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://luoye6.github.io/2023/03/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">https://luoye6.github.io/2023/03/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://luoye6.github.io" target="_blank">小白条的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">-设计模式</a></div><div class="post_share"><div class="social-share" data-image="https://xxx.xiaobaitiao.icu/img/icu/202312012130868.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/12/09/Virtual%20Box%20%E5%92%8C%20Vagrant%20%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85%20centos7%20%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" title="VirtualBox 和 Vagrant 快速安装 Centos7 报错"><img class="cover" src="https://xxx.xiaobaitiao.icu/img/icu/202312012130868.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">VirtualBox 和 Vagrant 快速安装 Centos7 报错</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/11/2023%E5%B9%B4%E4%B8%8A%E5%8D%8A%E5%B9%B4%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92/" title="2023年上半年学习规划"><img class="cover" src="https://xxx.xiaobaitiao.icu/img/icu/202312012130872.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">2023年上半年学习规划</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://pic.yupi.icu/5563/202401011320066.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">xiaobaitiao</div><div class="author-info__description">记录个人编程日志学习记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/luoye6"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/luoye6" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">一个分享编程日志记录的网站，欢迎一起进步!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%9C%9F"><span class="toc-number">1.</span> <span class="toc-text">设计模式读书笔记第一期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%A4%A7%E8%87%B4%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">工厂模式大致结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">工厂的具体实现方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.3.</span> <span class="toc-text">测试方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">策略模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E5%A4%A7%E8%87%B4%E7%BB%93%E6%9E%84%E5%9B%BE"><span class="toc-number">1.2.1.</span> <span class="toc-text">策略模式大致结构图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95-1"><span class="toc-number">1.2.2.</span> <span class="toc-text">测试方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94%E4%B8%80%E4%B8%8B%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.2.3.</span> <span class="toc-text">对比一下工厂模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90%E9%A1%B9%E7%9B%AE%E5%92%8C%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2"><span class="toc-number">2.</span> <span class="toc-text">⭐项目和个人博客</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/01/Java%E8%AF%BB%E5%8F%96mysql%E7%9A%84datetime%E7%B1%BB%E5%9E%8B/" title="Java读取MySQL的DateTime类型"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130870.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java读取MySQL的DateTime类型"/></a><div class="content"><a class="title" href="/2024/01/01/Java%E8%AF%BB%E5%8F%96mysql%E7%9A%84datetime%E7%B1%BB%E5%9E%8B/" title="Java读取MySQL的DateTime类型">Java读取MySQL的DateTime类型</a><time datetime="2024-01-01T05:22:29.053Z" title="发表于 2024-01-01 13:22:29">2024-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/01/MyBatis%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="MyBatis学习总结(1)"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130870.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MyBatis学习总结(1)"/></a><div class="content"><a class="title" href="/2024/01/01/MyBatis%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="MyBatis学习总结(1)">MyBatis学习总结(1)</a><time datetime="2024-01-01T05:22:29.037Z" title="发表于 2024-01-01 13:22:29">2024-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/01/hello-world/" title="Hello World"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130872.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2024/01/01/hello-world/" title="Hello World">Hello World</a><time datetime="2024-01-01T04:43:40.732Z" title="发表于 2024-01-01 12:43:40">2024-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/09/Virtual%20Box%20%E5%92%8C%20Vagrant%20%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85%20centos7%20%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" title="VirtualBox 和 Vagrant 快速安装 Centos7 报错"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130868.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VirtualBox 和 Vagrant 快速安装 Centos7 报错"/></a><div class="content"><a class="title" href="/2023/12/09/Virtual%20Box%20%E5%92%8C%20Vagrant%20%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85%20centos7%20%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" title="VirtualBox 和 Vagrant 快速安装 Centos7 报错">VirtualBox 和 Vagrant 快速安装 Centos7 报错</a><time datetime="2023-12-09T04:36:46.000Z" title="发表于 2023-12-09 12:36:46">2023-12-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="设计模式读书笔记第一期"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130868.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="设计模式读书笔记第一期"/></a><div class="content"><a class="title" href="/2023/03/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="设计模式读书笔记第一期">设计模式读书笔记第一期</a><time datetime="2023-03-31T13:24:23.000Z" title="发表于 2023-03-31 21:24:23">2023-03-31</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://xxx.xiaobaitiao.icu/img/icu/202312012130868.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By xiaobaitiao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">程序员小白条的个人博客</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"></div><div id="rightside-config-show"><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="/js/tw_cn.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/click-show-text.min.js" data-mobile="false" data-text="自由,平等,公正,法治,爱国,敬业" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>SpringBoot学习总结(3) | 小白条的个人博客</title><meta name="author" content="xiaobaitiao"><meta name="copyright" content="xiaobaitiao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="SpringBoot2核心技术-核心功能3.数据访问3.1.SQL1.数据源的自动配置-HikariDataSource1.1导入JDBC场景 &lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;spring-boot-starter-data-jdbc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot学习总结(3)">
+<meta property="og:url" content="https://luoye6.github.io/2023/01/12/SpringBoot%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(3)/index.html">
+<meta property="og:site_name" content="小白条的个人博客">
+<meta property="og:description" content="SpringBoot2核心技术-核心功能3.数据访问3.1.SQL1.数据源的自动配置-HikariDataSource1.1导入JDBC场景 &lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;spring-boot-starter-data-jdbc">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xxx.xiaobaitiao.icu/img/icu/202312012130864.jpg">
+<meta property="article:published_time" content="2023-01-12T05:06:32.000Z">
+<meta property="article:modified_time" content="2023-12-01T13:38:21.005Z">
+<meta property="article:author" content="xiaobaitiao">
+<meta property="article:tag" content="-SpringBoot -后端 -总结">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xxx.xiaobaitiao.icu/img/icu/202312012130864.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://luoye6.github.io/2023/01/12/SpringBoot%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(3)/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: xiaobaitiao","link":"链接: ","source":"来源: 小白条的个人博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SpringBoot学习总结(3)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-12-01 21:38:21'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic.yupi.icu/5563/202401011320066.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://xxx.xiaobaitiao.icu/img/icu/202312012130864.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="小白条的个人博客"><span class="site-name">小白条的个人博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SpringBoot学习总结(3)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-12T05:06:32.000Z" title="发表于 2023-01-12 13:06:32">2023-01-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-01T13:38:21.005Z" title="更新于 2023-12-01 21:38:21">2023-12-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%90%8E%E7%AB%AF/">-后端</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SpringBoot学习总结(3)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="SpringBoot2核心技术-核心功能"><a href="#SpringBoot2核心技术-核心功能" class="headerlink" title="SpringBoot2核心技术-核心功能"></a>SpringBoot2核心技术-核心功能</h2><h3 id="3-数据访问"><a href="#3-数据访问" class="headerlink" title="3.数据访问"></a>3.数据访问</h3><h4 id="3-1-SQL"><a href="#3-1-SQL" class="headerlink" title="3.1.SQL"></a>3.1.SQL</h4><h5 id="1-数据源的自动配置-HikariDataSource"><a href="#1-数据源的自动配置-HikariDataSource" class="headerlink" title="1.数据源的自动配置-HikariDataSource"></a>1.数据源的自动配置-HikariDataSource</h5><p><strong>1.1导入JDBC场景</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">数据库驱动？</span><br><span class="line">为什么导入JDBC场景，官方不导入驱动？官方不知道我们接下要操作什么数据库。</span><br><span class="line">数据库版本和驱动版本对应</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">默认版本：<span class="tag">&lt;<span class="name">mysql.version</span>&gt;</span>8.0.22<span class="tag">&lt;/<span class="name">mysql.version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;version&gt;5.1.49&lt;/version&gt;--&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">想要修改版本</span><br><span class="line">1、直接依赖引入具体版本（maven的就近依赖原则）</span><br><span class="line">2、重新声明版本（maven的属性的就近优先原则）</span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mysql.version</span>&gt;</span>5.1.49<span class="tag">&lt;/<span class="name">mysql.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2-分析自动配置"><a href="#2-分析自动配置" class="headerlink" title="2.分析自动配置"></a>2.分析自动配置</h5><h5 id="1、自动配置的类"><a href="#1、自动配置的类" class="headerlink" title="1、自动配置的类"></a>1、自动配置的类</h5><ul>
+<li><p>DataSourceAutoConfiguration ： 数据源的自动配置</p>
+</li>
+<li><ul>
+<li>修改数据源相关的配置：<strong>spring.datasource</strong></li>
+<li><strong>数据库连接池的配置，是自己容器中没有DataSource才自动配置的</strong></li>
+<li>底层配置好的连接池是：<strong>HikariDataSource</strong></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration(proxyBeanMethods = false)</span></span><br><span class="line"><span class="meta">@Conditional(PooledDataSourceCondition.class)</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean(&#123; DataSource.class, XADataSource.class &#125;)</span></span><br><span class="line"><span class="meta">@Import(&#123; DataSourceConfiguration.Hikari.class, DataSourceConfiguration.Tomcat.class,</span></span><br><span class="line"><span class="meta">		DataSourceConfiguration.Dbcp2.class, DataSourceConfiguration.OracleUcp.class,</span></span><br><span class="line"><span class="meta">		DataSourceConfiguration.Generic.class, DataSourceJmxConfiguration.class &#125;)</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">PooledDataSourceConfiguration</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>DataSourceTransactionManagerAutoConfiguration： 事务管理器的自动配置</p>
+</li>
+<li><p>JdbcTemplateAutoConfiguration： <strong>JdbcTemplate的自动配置，可以来对数据库进行crud</strong></p>
+</li>
+<li><ul>
+<li>可以修改这个配置项@ConfigurationProperties(prefix &#x3D; <strong>“spring.jdbc”</strong>) 来修改JdbcTemplate</li>
+<li>@Bean@Primary    JdbcTemplate；容器中有这个组件</li>
+</ul>
+</li>
+<li><p>JndiDataSourceAutoConfiguration： jndi的自动配置</p>
+</li>
+<li><p>XADataSourceAutoConfiguration： 分布式事务相关的</p>
+</li>
+</ul>
+<h5 id="3-修改配置项"><a href="#3-修改配置项" class="headerlink" title="3.修改配置项"></a>3.修改配置项</h5><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/db_account</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="4-测试"><a href="#4-测试" class="headerlink" title="4.测试"></a>4.测试</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Boot05WebAdminApplicationTests</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">contextLoads</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">//        jdbcTemplate.queryForObject(&quot;select * from account_tbl&quot;)</span></span><br><span class="line"><span class="comment">//        jdbcTemplate.queryForList(&quot;select * from account_tbl&quot;,)</span></span><br><span class="line">        <span class="type">Long</span> <span class="variable">aLong</span> <span class="operator">=</span> jdbcTemplate.queryForObject(<span class="string">&quot;select count(*) from account_tbl&quot;</span>, Long.class);</span><br><span class="line">        log.info(<span class="string">&quot;记录总数：&#123;&#125;&quot;</span>,aLong);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2使用Druid数据源"><a href="#3-2使用Druid数据源" class="headerlink" title="3.2使用Druid数据源"></a>3.2使用Druid数据源</h4><h5 id="1-自定义方式"><a href="#1-自定义方式" class="headerlink" title="1.自定义方式"></a>1.自定义方式</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.alibaba.druid.pool.DruidDataSource&quot;</span></span></span><br><span class="line"><span class="tag">		<span class="attr">destroy-method</span>=<span class="string">&quot;close&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;url&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.url&#125;&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.username&#125;&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.password&#125;&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxActive&quot;</span> <span class="attr">value</span>=<span class="string">&quot;20&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;initialSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxWait&quot;</span> <span class="attr">value</span>=<span class="string">&quot;60000&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;minIdle&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;timeBetweenEvictionRunsMillis&quot;</span> <span class="attr">value</span>=<span class="string">&quot;60000&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;minEvictableIdleTimeMillis&quot;</span> <span class="attr">value</span>=<span class="string">&quot;300000&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testWhileIdle&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testOnBorrow&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testOnReturn&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;poolPreparedStatements&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxOpenPreparedStatements&quot;</span> <span class="attr">value</span>=<span class="string">&quot;20&quot;</span> /&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="2-StatViewServlet"><a href="#2-StatViewServlet" class="headerlink" title="2.StatViewServlet"></a>2.StatViewServlet</h5><p>StatViewServlet的用途包括：</p>
+<ul>
+<li>提供监控信息展示的html页面</li>
+<li>提供监控信息的JSON API</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>DruidStatView<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>com.alibaba.druid.support.http.StatViewServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>DruidStatView<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/druid/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="3-StatFilter"><a href="#3-StatFilter" class="headerlink" title="3.StatFilter"></a>3.StatFilter</h5><p>用于统计监控信息:如SQL监控、URI监控</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">需要给数据源中配置如下属性；可以允许多个filter，多个用，分割；如：</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;filters&quot;</span> <span class="attr">value</span>=<span class="string">&quot;stat,slf4j&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>系统中所有filter：</p>
+<table>
+<thead>
+<tr>
+<th>别名</th>
+<th>Filter类名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>default</td>
+<td>com.alibaba.druid.filter.stat.StatFilter</td>
+</tr>
+<tr>
+<td>stat</td>
+<td>com.alibaba.druid.filter.stat.StatFilter</td>
+</tr>
+<tr>
+<td>mergeStat</td>
+<td>com.alibaba.druid.filter.stat.MergeStatFilter</td>
+</tr>
+<tr>
+<td>encoding</td>
+<td>com.alibaba.druid.filter.encoding.EncodingConvertFilter</td>
+</tr>
+<tr>
+<td>log4j</td>
+<td>com.alibaba.druid.filter.logging.Log4jFilter</td>
+</tr>
+<tr>
+<td>log4j2</td>
+<td>com.alibaba.druid.filter.logging.Log4j2Filter</td>
+</tr>
+<tr>
+<td>slf4j</td>
+<td>com.alibaba.druid.filter.logging.Slf4jLogFilter</td>
+</tr>
+<tr>
+<td>commonlogging</td>
+<td>com.alibaba.druid.filter.logging.CommonsLogFilter</td>
+</tr>
+</tbody></table>
+<p><strong>慢SQL记录</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;stat-filter&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.alibaba.druid.filter.stat.StatFilter&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;slowSqlMillis&quot;</span> <span class="attr">value</span>=<span class="string">&quot;10000&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;logSlowSql&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">使用 slowSqlMillis 定义慢SQL的时长</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-使用官方Starter方法-推荐"><a href="#4-使用官方Starter方法-推荐" class="headerlink" title="4.使用官方Starter方法(推荐)"></a>4.使用官方Starter方法(推荐)</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2、分析自动配置"><a href="#2、分析自动配置" class="headerlink" title="2、分析自动配置"></a>2、分析自动配置</h5><ul>
+<li>扩展配置项 <strong>spring.datasource.druid</strong></li>
+<li>DruidSpringAopConfiguration.<strong>class</strong>,   监控SpringBean的；配置项：<strong>spring.datasource.druid.aop-patterns</strong></li>
+<li>DruidStatViewServletConfiguration.<strong>class</strong>, 监控页的配置：<strong>spring.datasource.druid.stat-view-servlet；默认开启</strong></li>
+<li>DruidWebStatFilterConfiguration.<strong>class</strong>, web监控配置；<strong>spring.datasource.druid.web-stat-filter；默认开启</strong></li>
+<li>DruidFilterConfiguration.<strong>class</strong>}) 所有Druid自己filter的配置</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_STAT_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.stat&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_CONFIG_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.config&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_ENCODING_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.encoding&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_SLF4J_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.slf4j&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_LOG4J_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.log4j&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_LOG4J2_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.log4j2&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_COMMONS_LOG_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.commons-log&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_WALL_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.wall&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/db_account</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">druid:</span></span><br><span class="line">      <span class="attr">aop-patterns:</span> <span class="string">com.atguigu.admin.*</span>  <span class="comment">#监控SpringBean</span></span><br><span class="line">      <span class="attr">filters:</span> <span class="string">stat,wall</span>     <span class="comment"># 底层开启功能，stat（sql监控），wall（防火墙）</span></span><br><span class="line"></span><br><span class="line">      <span class="attr">stat-view-servlet:</span>   <span class="comment"># 配置监控页功能</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">login-username:</span> <span class="string">admin</span></span><br><span class="line">        <span class="attr">login-password:</span> <span class="string">admin</span></span><br><span class="line">        <span class="attr">resetEnable:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">      <span class="attr">web-stat-filter:</span>  <span class="comment"># 监控web</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">urlPattern:</span> <span class="string">/*</span></span><br><span class="line">        <span class="attr">exclusions:</span> <span class="string">&#x27;*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="attr">filter:</span></span><br><span class="line">        <span class="attr">stat:</span>    <span class="comment"># 对上面filters里面的stat的详细配置</span></span><br><span class="line">          <span class="attr">slow-sql-millis:</span> <span class="number">1000</span></span><br><span class="line">          <span class="attr">logSlowSql:</span> <span class="literal">true</span></span><br><span class="line">          <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">wall:</span></span><br><span class="line">          <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">          <span class="attr">config:</span></span><br><span class="line">            <span class="attr">drop-table-allow:</span> <span class="literal">false</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3NoSQL"><a href="#3-3NoSQL" class="headerlink" title="3.3NoSQL"></a>3.3NoSQL</h4><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">Redis 是一个开源（BSD许可）的，内存中的数据结构存储系统，它可以用作数据库、缓存和消息中间件。 它支持多种类型的数据结构，如 字符串（strings）， 散列（hashes）， 列表（lists）， 集合（sets）， 有序集合（sorted sets） 与范围查询， bitmaps， hyperloglogs 和 地理空间（geospatial） 索引半径查询。 Redis 内置了 复制（replication），LUA脚本（Lua scripting）， LRU驱动事件（LRU eviction），事务（transactions） 和不同级别的 磁盘持久化（persistence）， 并通过 Redis哨兵（Sentinel）和自动 分区（Cluster）提供高可用性（high availability）。</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-3-1Redis自动配置"><a href="#3-3-1Redis自动配置" class="headerlink" title="3.3.1Redis自动配置"></a>3.3.1Redis自动配置</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>自动配置：</p>
+<ul>
+<li>RedisAutoConfiguration 自动配置类。RedisProperties 属性类 –&gt; <strong>spring.redis.xxx是对redis的配置</strong></li>
+<li>连接工厂是准备好的。<strong>Lettuce</strong>ConnectionConfiguration、<strong>Jedis</strong>ConnectionConfiguration</li>
+<li><strong>自动注入了RedisTemplate</strong>&lt;**Object**, **Object**&gt; ： xxxTemplate；</li>
+<li><strong>自动注入了StringRedisTemplate；k：v都是String</strong></li>
+<li><strong>key：value</strong></li>
+<li><strong>底层只要我们使用</strong> <strong>StrinRedisTemplate、****RedisTemplate就可以操作redis</strong></li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/5563/image-20230112130256961.png" alt="image-20230112130256961"></p>
+<p><strong>redis环境搭建</strong></p>
+<p><strong>1、阿里云按量付费redis。经典网络</strong></p>
+<p><strong>2、申请redis的公网连接地址</strong></p>
+<p><strong>3、修改白名单  允许0.0.0.0&#x2F;0 访问</strong></p>
+<h5 id="3-3-2RedisTemplate与Lettuce"><a href="#3-3-2RedisTemplate与Lettuce" class="headerlink" title="3.3.2RedisTemplate与Lettuce"></a>3.3.2RedisTemplate与Lettuce</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testRedis</span><span class="params">()</span>&#123;</span><br><span class="line">    ValueOperations&lt;String, String&gt; operations = redisTemplate.opsForValue();</span><br><span class="line"></span><br><span class="line">    operations.set(<span class="string">&quot;hello&quot;</span>,<span class="string">&quot;world&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">String</span> <span class="variable">hello</span> <span class="operator">=</span> operations.get(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    System.out.println(hello);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-3-3切换到jedis"><a href="#3-3-3切换到jedis" class="headerlink" title="3.3.3切换到jedis"></a>3.3.3切换到jedis</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--        导入jedis--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">      <span class="attr">host:</span> <span class="string">r-bp1nc7reqesxisgxpipd.redis.rds.aliyuncs.com</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">6379</span></span><br><span class="line">      <span class="attr">password:</span> <span class="string">lfy:Lfy123456</span></span><br><span class="line">      <span class="attr">client-type:</span> <span class="string">jedis</span></span><br><span class="line">      <span class="attr">jedis:</span></span><br><span class="line">        <span class="attr">pool:</span></span><br><span class="line">          <span class="attr">max-active:</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://luoye6.github.io">xiaobaitiao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://luoye6.github.io/2023/01/12/SpringBoot%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(3)/">https://luoye6.github.io/2023/01/12/SpringBoot%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(3)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://luoye6.github.io" target="_blank">小白条的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SpringBoot-%E5%90%8E%E7%AB%AF-%E6%80%BB%E7%BB%93/">-SpringBoot -后端 -总结</a></div><div class="post_share"><div class="social-share" data-image="https://xxx.xiaobaitiao.icu/img/icu/202312012130864.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/13/React%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="React学习总结(1)"><img class="cover" src="https://xxx.xiaobaitiao.icu/img/icu/202312012130872.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">React学习总结(1)</div></div></a></div><div class="next-post pull-right"><a href="/2023/01/10/SpringBoot%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(2)/" title="SpringBoot学习总结(2)"><img class="cover" src="https://xxx.xiaobaitiao.icu/img/icu/202312012130872.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SpringBoot学习总结(2)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/01/10/SpringBoot%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93(2)/" title="SpringBoot学习总结(2)"><img class="cover" src="https://xxx.xiaobaitiao.icu/img/icu/202312012130872.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-10</div><div class="title">SpringBoot学习总结(2)</div></div></a></div><div><a href="/2023/01/09/SpringBoot%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="SpringBoot学习总结(1)"><img class="cover" src="https://xxx.xiaobaitiao.icu/img/icu/202312012130872.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-09</div><div class="title">SpringBoot学习总结(1)</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://pic.yupi.icu/5563/202401011320066.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">xiaobaitiao</div><div class="author-info__description">记录个人编程日志学习记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/luoye6"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/luoye6" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">一个分享编程日志记录的网站，欢迎一起进步!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringBoot2%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">SpringBoot2核心技术-核心功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE"><span class="toc-number">1.1.</span> <span class="toc-text">3.数据访问</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-SQL"><span class="toc-number">1.1.1.</span> <span class="toc-text">3.1.SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE-HikariDataSource"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">1.数据源的自动配置-HikariDataSource</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%88%86%E6%9E%90%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">2.分析自动配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1%E3%80%81%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E7%9A%84%E7%B1%BB"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">1、自动配置的类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E9%A1%B9"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">3.修改配置项</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E6%B5%8B%E8%AF%95"><span class="toc-number">1.1.1.5.</span> <span class="toc-text">4.测试</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2%E4%BD%BF%E7%94%A8Druid%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="toc-number">1.1.2.</span> <span class="toc-text">3.2使用Druid数据源</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">1.自定义方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-StatViewServlet"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">2.StatViewServlet</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-StatFilter"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">3.StatFilter</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8%E5%AE%98%E6%96%B9Starter%E6%96%B9%E6%B3%95-%E6%8E%A8%E8%8D%90"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">4.使用官方Starter方法(推荐)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%E3%80%81%E5%88%86%E6%9E%90%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.2.5.</span> <span class="toc-text">2、分析自动配置</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3NoSQL"><span class="toc-number">1.1.3.</span> <span class="toc-text">3.3NoSQL</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-1Redis%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">3.3.1Redis自动配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-2RedisTemplate%E4%B8%8ELettuce"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">3.3.2RedisTemplate与Lettuce</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-3%E5%88%87%E6%8D%A2%E5%88%B0jedis"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">3.3.3切换到jedis</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/01/Java%E8%AF%BB%E5%8F%96mysql%E7%9A%84datetime%E7%B1%BB%E5%9E%8B/" title="Java读取MySQL的DateTime类型"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130870.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java读取MySQL的DateTime类型"/></a><div class="content"><a class="title" href="/2024/01/01/Java%E8%AF%BB%E5%8F%96mysql%E7%9A%84datetime%E7%B1%BB%E5%9E%8B/" title="Java读取MySQL的DateTime类型">Java读取MySQL的DateTime类型</a><time datetime="2024-01-01T05:22:29.053Z" title="发表于 2024-01-01 13:22:29">2024-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/01/MyBatis%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="MyBatis学习总结(1)"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130870.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MyBatis学习总结(1)"/></a><div class="content"><a class="title" href="/2024/01/01/MyBatis%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="MyBatis学习总结(1)">MyBatis学习总结(1)</a><time datetime="2024-01-01T05:22:29.037Z" title="发表于 2024-01-01 13:22:29">2024-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/01/hello-world/" title="Hello World"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130872.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2024/01/01/hello-world/" title="Hello World">Hello World</a><time datetime="2024-01-01T04:43:40.732Z" title="发表于 2024-01-01 12:43:40">2024-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/09/Virtual%20Box%20%E5%92%8C%20Vagrant%20%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85%20centos7%20%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" title="VirtualBox 和 Vagrant 快速安装 Centos7 报错"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130868.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VirtualBox 和 Vagrant 快速安装 Centos7 报错"/></a><div class="content"><a class="title" href="/2023/12/09/Virtual%20Box%20%E5%92%8C%20Vagrant%20%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85%20centos7%20%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" title="VirtualBox 和 Vagrant 快速安装 Centos7 报错">VirtualBox 和 Vagrant 快速安装 Centos7 报错</a><time datetime="2023-12-09T04:36:46.000Z" title="发表于 2023-12-09 12:36:46">2023-12-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="设计模式读书笔记第一期"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130868.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="设计模式读书笔记第一期"/></a><div class="content"><a class="title" href="/2023/03/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="设计模式读书笔记第一期">设计模式读书笔记第一期</a><time datetime="2023-03-31T13:24:23.000Z" title="发表于 2023-03-31 21:24:23">2023-03-31</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://xxx.xiaobaitiao.icu/img/icu/202312012130864.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By xiaobaitiao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">程序员小白条的个人博客</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"></div><div id="rightside-config-show"><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="/js/tw_cn.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/click-show-text.min.js" data-mobile="false" data-text="自由,平等,公正,法治,爱国,敬业" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
