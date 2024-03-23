@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>数据库事务的 ACID 特性 | 小白条的个人博客</title><meta name="author" content="xiaobaitiao"><meta name="copyright" content="xiaobaitiao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="数据库事务的 ACID 特性题目数据库事务的 ACID 特性 推荐解析1）原子性（ Atomicity ）：确保事务中的所有操作要么全部提交成功，要么全部失败回滚，不会出现部分操作成功部分操作失败的情况。 START TRANSACTION;UPDATE account SET balance &#x3D; balance - 100 WHERE account_id &#x3D; 123;INSERT INTO t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库事务的 ACID 特性">
+<meta property="og:url" content="https://luoye6.github.io/2024/03/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%20ACID%20%E7%89%B9%E6%80%A7/index.html">
+<meta property="og:site_name" content="小白条的个人博客">
+<meta property="og:description" content="数据库事务的 ACID 特性题目数据库事务的 ACID 特性 推荐解析1）原子性（ Atomicity ）：确保事务中的所有操作要么全部提交成功，要么全部失败回滚，不会出现部分操作成功部分操作失败的情况。 START TRANSACTION;UPDATE account SET balance &#x3D; balance - 100 WHERE account_id &#x3D; 123;INSERT INTO t">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.yupi.icu/5563/202403231927464.jpg">
+<meta property="article:published_time" content="2024-03-23T11:46:23.000Z">
+<meta property="article:modified_time" content="2024-03-23T11:29:13.782Z">
+<meta property="article:author" content="xiaobaitiao">
+<meta property="article:tag" content="-数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.yupi.icu/5563/202403231927464.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://luoye6.github.io/2024/03/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%20ACID%20%E7%89%B9%E6%80%A7/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: xiaobaitiao","link":"链接: ","source":"来源: 小白条的个人博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数据库事务的 ACID 特性',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-03-23 19:29:13'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic.yupi.icu/5563/202401011320066.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic.yupi.icu/5563/202403231927464.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="小白条的个人博客"><span class="site-name">小白条的个人博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据库事务的 ACID 特性</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-03-23T11:46:23.000Z" title="发表于 2024-03-23 19:46:23">2024-03-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-03-23T11:29:13.782Z" title="更新于 2024-03-23 19:29:13">2024-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/">-后端学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="数据库事务的-ACID-特性"><a href="#数据库事务的-ACID-特性" class="headerlink" title="数据库事务的 ACID 特性"></a>数据库事务的 ACID 特性</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>数据库事务的 ACID 特性</p>
+<h2 id="推荐解析"><a href="#推荐解析" class="headerlink" title="推荐解析"></a>推荐解析</h2><p>1）原子性（ Atomicity ）：确保事务中的所有操作要么全部提交成功，要么全部失败回滚，不会出现部分操作成功部分操作失败的情况。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">UPDATE</span> account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">-</span> <span class="number">100</span> <span class="keyword">WHERE</span> account_id <span class="operator">=</span> <span class="number">123</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> transaction_log (account_id, amount, transaction_type) <span class="keyword">VALUES</span> (<span class="number">123</span>, <span class="number">100</span>, <span class="string">&#x27;WITHDRAW&#x27;</span>);</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果任何一个操作失败，整个事务将会回滚，保持数据的一致性。</p>
+<p>2）一致性（ Consistency ）：当事务完成时，数据库从一个一致性状态转移到另一个一致性状态，不会破坏数据库的完整性约束。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">UPDATE</span> orders <span class="keyword">SET</span> status <span class="operator">=</span> <span class="string">&#x27;shipped&#x27;</span> <span class="keyword">WHERE</span> order_id <span class="operator">=</span> <span class="number">456</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> shipping_log (order_id, shipped_date) <span class="keyword">VALUES</span> (<span class="number">456</span>, NOW());</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+
+<p>当事务完成时，订单状态和发货日志是一致的，不会破坏数据库的完整性约束。</p>
+<p>3）隔离性（ Isolation ）：确保事务之间的操作相互隔离，即一个事务的执行不会受其他事务的影响，每个事务都感觉不到其他事务的存在。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 事务1</span></span><br><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> accounts <span class="keyword">WHERE</span> account_id <span class="operator">=</span> <span class="number">789</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务2</span></span><br><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">UPDATE</span> accounts <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">+</span> <span class="number">100</span> <span class="keyword">WHERE</span> account_id <span class="operator">=</span> <span class="number">789</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+
+<p>事务1对账户进行了锁定，防止其他事务同时修改该账户，确保了隔离性。这里加的是排他锁（独占锁）。</p>
+<p>4）持久性（ Durability ）：一旦事务提交，其所做的修改将会永久保存在数据库中，即使系统发生故障也不会丢失。</p>
+<h3 id="面试小技巧"><a href="#面试小技巧" class="headerlink" title="面试小技巧"></a>面试小技巧</h3><p>在记忆四大特性的时候，要清楚原理，也就是原子性是基于什么实现的？隔离性是基于什么实现的？持久性是基于什么实现的？一致性是目的，而不是手段！</p>
+<p>建议先了解三大日志！！！很重要，我这边作概述。</p>
+<p>原子性：要保证原子性，肯定要有事务，要有事务，那么如果出现异常，就要进行回滚，那么谁是回滚日志？</p>
+<p>undo log：事务修改会记录到回滚日志中，发生异常，利用回滚日志的信息将数据进行回滚，而且回滚日志又优先于数据持久化到磁盘上。如果数据库宕机，用户再次启动数据库，数据库通过查询回滚日志来回滚尚未完成的事务。</p>
+<p>持久性：通过 Redo log 重做日志进行实现，重做日志是 MySQL 的 InnoDB 引擎独有的，如果 MySQL 宕机，重启后读取日志即可恢复。</p>
+<p>由于 MySQL 数据以页做单位，查询记录，会加载一页的数据页，然后放到缓冲池( Buffer Pool )中，后续查询先从缓冲池找，没有命中，再硬盘加载，减少 IO 开销，更新数据也是如此，对数据页的修改会记录到重做日志的缓存，redo log buffer 中，然后通过刷盘到 redo log 文件。因为 undo log 频率太低，而 Redo log 能够有效的防止数据的丢失，有兴趣的可以了解下 Redo log 的刷盘策略，默认是事务提交都进行刷盘，这样是最安全的。</p>
+<p>下图非常清晰的展示了刷盘的过程，以及 fsync 系统调用。可以去了解下 Read、Select、Epoll 这些调用分别有什么作用，基础还是非常重要的。</p>
+<p><img src="https://pic.yupi.icu/5563/202312161524255.png"></p>
+<p>图源: Java Guide</p>
+<p>隔离性：通过锁机制和 MVCC 机制来实现，而 MVCC 又通过 隐藏字段、undo log、Read View 进行实现。像可重复读和读已提交就是通过 MVCC 机制实现，MVCC 解决的是读写冲突问题，传统读写会阻塞，而 MVCC 读读和读写都不阻塞，写写才会阻塞，因此经常采用 MVCC + 乐观锁&#x2F;悲观锁。锁解决写写冲突， MVCC 解决读写冲突。通过一个隔离性其实阐述很多知识点，像快照读，当前读，MVCC，悲观锁，乐观锁，ABA 问题，隐藏字段(回滚指针，事务 id,隐藏生成聚簇索引 id )，活跃事务列表，数据可见性算法， RC 和 RR 隔离级别下 MVCC 的差异，MVCC + 间隙锁解决幻读等等，像这些问题你能够通过问一个特性去层层深入，面试官肯定是对你有所赞赏的。</p>
+<h2 id="其他补充"><a href="#其他补充" class="headerlink" title="其他补充"></a>其他补充</h2><p>鱼聪明AI 的回答：</p>
+<blockquote>
+<p>鱼聪明 AI地址：<a target="_blank" rel="noopener" href="https://www.yucongming.com/">鱼聪明AI</a></p>
+</blockquote>
+<p>数据库事务的ACID特性是指原子性（ Atomicity ）、一致性（ Consistency ）、隔离性（ Isolation ）和持久性（ Durability ）。</p>
+<p>1）原子性（ Atomicity ）：确保事务中的所有操作要么全部提交成功，要么全部失败回滚，不会出现部分操作成功部分操作失败的情况。原子性通过日志系统来实现，所有的操作都会被记录在日志中，以便在事务失败时进行回滚，或者在事务提交时将操作应用到数据库中。</p>
+<p>2）一致性（ Consistency ）：当事务完成时，数据库从一个一致性状态转移到另一个一致性状态，不会破坏数据库的完整性约束。数据库在执行事务时会保证数据的完整性和一致性，如果事务执行过程中违反了数据库的约束条件，事务将会被回滚，以保持数据库的一致性。</p>
+<p>3）隔离性（ Isolation ）：确保事务之间的操作相互隔离，即一个事务的执行不会受其他事务的影响，每个事务都感觉不到其他事务的存在。数据库系统通过锁机制来实现事务的隔离性，以防止并发事务之间的数据混乱和不一致性。</p>
+<p>4）持久性（ Durability ）：一旦事务提交，其所做的修改将会永久保存在数据库中，即使系统发生故障也不会丢失。数据库系统会将事务的操作持久化到磁盘上，以确保数据的持久性，即使在系统发生故障或者断电的情况下，数据也不会丢失。</p>
+<p>综上所述，数据库事务的 ACID 特性确保了数据的完整性、一致性、隔离性和持久性，使得数据库能够有效地管理并发事务和故障恢复，保证数据的安全性和可靠性。</p>
+<p>CSDN某同学的回答：</p>
+<p>1）原子性：每个事务中的操作要么全部完成要么全部不执行，保证数据库状态不会因为部分操作失败而改变。</p>
+<p>2）一致性：保证所有写入数据库的数据都是合法的，遵守定义好的规则，不会违反约束、级联和触发器等规则。</p>
+<p>3）隔离性：并发执行多个事务对系统状态的影响和串行执行多个事务对系统状态的影响是一样的，未完成的事务对其他事务是不可见的。</p>
+<p>4）持久性：一旦事务提交，其状态就会永久保存，即使发生主机断电、崩溃或错误。事务的结果必须被记录在永久性存储中。</p>
+<p>知乎某同学对一致性的回答：</p>
+<p>一致性是指事务必须使数据库从一个一致性状态变换到另一个一致性状态，也就是说一个事务执行之前和执行之后都必须处于一致性状态。</p>
+<p>如转账的栗子: 假设用户A和用户B两者的钱加起来一共是5000，那么不管A和B之间如何转账，转几次账，事务结束后两个用户的钱相加起来应该还得是5000，这就是事务的一致性。</p>
+<h2 id="欢迎交流"><a href="#欢迎交流" class="headerlink" title="欢迎交流"></a>欢迎交流</h2><p>在阅读本文之后，你应该对了解 AID 是手段，D 是目的，而不能混为一谈，通过一个特性应该分析本质，这个特性怎么实现的？为什么要有这个特性？接下来，我将提出三个问题，欢迎小伙伴在评论区留言进行交流！</p>
+<p>1）数据库三大日志有哪些，它们的作用是什么？</p>
+<p>2）MVCC 是什么？怎么实现 MVCC ？</p>
+<p>3）MVCC 能够解决幻读吗？如果不能，需要和什么配合才能解决幻读问题？</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://luoye6.github.io">xiaobaitiao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://luoye6.github.io/2024/03/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%20ACID%20%E7%89%B9%E6%80%A7/">https://luoye6.github.io/2024/03/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%20ACID%20%E7%89%B9%E6%80%A7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://luoye6.github.io" target="_blank">小白条的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">-数据库</a></div><div class="post_share"><div class="social-share" data-image="https://pic.yupi.icu/5563/202403231927464.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/03/17/Java%20%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E7%B1%BB%E4%BC%9A%E8%A2%AB%E5%8A%A0%E8%BD%BD%EF%BC%9F/" title="Java 什么时候类会被加载？"><img class="cover" src="https://pic.yupi.icu/5563/202403171246145.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java 什么时候类会被加载？</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://pic.yupi.icu/5563/202401011320066.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">xiaobaitiao</div><div class="author-info__description">记录个人编程日志学习记录</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/luoye6"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/luoye6" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">一个分享编程日志记录的网站，欢迎一起进步!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84-ACID-%E7%89%B9%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">数据库事务的 ACID 特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E8%A7%A3%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">推荐解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E5%B0%8F%E6%8A%80%E5%B7%A7"><span class="toc-number">1.2.1.</span> <span class="toc-text">面试小技巧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%A1%A5%E5%85%85"><span class="toc-number">1.3.</span> <span class="toc-text">其他补充</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AC%A2%E8%BF%8E%E4%BA%A4%E6%B5%81"><span class="toc-number">1.4.</span> <span class="toc-text">欢迎交流</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/03/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%20ACID%20%E7%89%B9%E6%80%A7/" title="数据库事务的 ACID 特性"><img src="https://pic.yupi.icu/5563/202403231927464.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据库事务的 ACID 特性"/></a><div class="content"><a class="title" href="/2024/03/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%20ACID%20%E7%89%B9%E6%80%A7/" title="数据库事务的 ACID 特性">数据库事务的 ACID 特性</a><time datetime="2024-03-23T11:46:23.000Z" title="发表于 2024-03-23 19:46:23">2024-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/17/Java%20%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E7%B1%BB%E4%BC%9A%E8%A2%AB%E5%8A%A0%E8%BD%BD%EF%BC%9F/" title="Java 什么时候类会被加载？"><img src="https://pic.yupi.icu/5563/202403171246145.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 什么时候类会被加载？"/></a><div class="content"><a class="title" href="/2024/03/17/Java%20%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E7%B1%BB%E4%BC%9A%E8%A2%AB%E5%8A%A0%E8%BD%BD%EF%BC%9F/" title="Java 什么时候类会被加载？">Java 什么时候类会被加载？</a><time datetime="2024-03-17T04:46:23.000Z" title="发表于 2024-03-17 12:46:23">2024-03-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/12/%E4%BB%80%E4%B9%88%E6%98%AF%20JVM%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6%EF%BC%9F/" title="什么是 JVM 双亲委派机制？"><img src="https://pic.yupi.icu/5563/202403120841964.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="什么是 JVM 双亲委派机制？"/></a><div class="content"><a class="title" href="/2024/03/12/%E4%BB%80%E4%B9%88%E6%98%AF%20JVM%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6%EF%BC%9F/" title="什么是 JVM 双亲委派机制？">什么是 JVM 双亲委派机制？</a><time datetime="2024-03-12T00:41:23.000Z" title="发表于 2024-03-12 08:41:23">2024-03-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/28/MyBatis%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="MyBatis学习总结(1)"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130872.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MyBatis学习总结(1)"/></a><div class="content"><a class="title" href="/2024/01/28/MyBatis%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" title="MyBatis学习总结(1)">MyBatis学习总结(1)</a><time datetime="2024-01-28T13:32:51.571Z" title="发表于 2024-01-28 21:32:51">2024-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/28/Java%E8%AF%BB%E5%8F%96mysql%E7%9A%84datetime%E7%B1%BB%E5%9E%8B/" title="Java读取MySQL的DateTime类型"><img src="https://xxx.xiaobaitiao.icu/img/icu/202312012130872.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java读取MySQL的DateTime类型"/></a><div class="content"><a class="title" href="/2024/01/28/Java%E8%AF%BB%E5%8F%96mysql%E7%9A%84datetime%E7%B1%BB%E5%9E%8B/" title="Java读取MySQL的DateTime类型">Java读取MySQL的DateTime类型</a><time datetime="2024-01-28T13:32:51.527Z" title="发表于 2024-01-28 21:32:51">2024-01-28</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://pic.yupi.icu/5563/202403231927464.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By xiaobaitiao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">程序员小白条的个人博客</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"></div><div id="rightside-config-show"><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="/js/tw_cn.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/click-show-text.min.js" data-mobile="false" data-text="自由,平等,公正,法治,爱国,敬业" data-fontsize="15px" data-random="false" async="async"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
