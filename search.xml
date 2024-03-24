@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>为什么 String 要设计成 Final 类？</title>
+      <link href="/2024/03/24/%E4%B8%BA%E4%BB%80%E4%B9%88String%E8%A6%81%E8%AE%BE%E8%AE%A1%E6%88%90Final%E7%B1%BB%EF%BC%9F/"/>
+      <url>/2024/03/24/%E4%B8%BA%E4%BB%80%E4%B9%88String%E8%A6%81%E8%AE%BE%E8%AE%A1%E6%88%90Final%E7%B1%BB%EF%BC%9F/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="为什么-String-要设计成-Final-类？"><a href="#为什么-String-要设计成-Final-类？" class="headerlink" title="为什么 String 要设计成 Final 类？"></a>为什么 String 要设计成 Final 类？</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>为什么 String 要设计成 Final 类？</p><h2 id="推荐解析"><a href="#推荐解析" class="headerlink" title="推荐解析"></a>推荐解析</h2><p>1）<strong>只有当字符串是不可变的，字符串池才有可能实现</strong></p><p>字符串池的实现可以在运行时节约很多 heap 空间，因为不同的字符串变量都指向池中的同一个字符串。但如果字符串是可变的，那么 String interning 将不能实现(注：String interning 是指对不同的字符串仅仅只保存一个，即不会保存多个相同的字符串。)，因为这样的话，如果变量改变了它的值，那么其它指向这个值的变量的值也会一起改变。</p><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">str1</span> <span class="operator">=</span> <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">str2</span> <span class="operator">=</span> <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">System.out.println(str1 == str2); <span class="comment">// 输出 true，因为字符串池中已经存在了 &quot;Hello&quot;</span></span><br></pre></td></tr></table></figure><p>2）<strong>如果字符串是可变的，那么会引起很严重的安全问题</strong></p><p>譬如，数据库的用户名、密码都是以字符串的形式传入来获得数据库的连接。因为字符串是不可变的，所以它的值是不可改变的，否则黑客们可以钻到空子，改变字符串指向的对象的值，造成安全漏洞。</p><p>3）<strong>因为字符串是不可变的，所以是多线程安全的</strong></p><p>同一个字符串实例可以被多个线程共享。这样便不用因为线程安全问题而使用同步。字符串自己便是线程安全的。</p><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; System.out.println(str)).start();</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; System.out.println(str)).start();</span><br></pre></td></tr></table></figure><p>4）<strong>类加载器要用到字符串，不可变性提供了安全性,以便正确的类被加载</strong></p><p>譬如你想加载  Java.util.Long 类，而这个值被改成了 haha.Long，那么会对你的数据库造成不可知的破坏。</p><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class&lt;?&gt; clazz = Class.forName(<span class="string">&quot;java.lang.String&quot;</span>);</span><br></pre></td></tr></table></figure><p>5）<strong>作为 Map 的 key，提高了访问效率</strong></p><p>在Java中，字符串是不可变的，所以它们的 hashcode 在创建时就被缓存了，不需要重新计算。这就使得字符串很适合作为 Map 中的键。</p><h2 id="其他补充"><a href="#其他补充" class="headerlink" title="其他补充"></a>其他补充</h2><p>鱼聪明 AI 的回答：</p><blockquote><p>鱼聪明 AI 地址：<a href="https://www.yucongming.com/">https://www.yucongming.com/</a></p></blockquote><p>在Java中，<code>String</code>类被设计为<code>final</code>类，主要有以下几个原因：</p><ol><li><p><strong>安全性</strong>：<code>String</code>类是不可变的，这意味着一旦创建，其值就不能被改变。这对于安全性来说是非常重要的，因为你可以安全地将敏感信息的一部分作为<code>String</code>对象的一部分，而不必担心它们会被修改。如果<code>String</code>类不是<code>final</code>的，那么你可能会创建一个子类，这个子类可能会修改<code>String</code>对象的值，这将破坏<code>String</code>类的不变性。</p></li><li><p><strong>性能</strong>：<code>String</code>类是不可变的，这意味着它的实例可以被多个线程安全地共享，而不需要使用额外的同步机制。这对于性能来说是非常重要的，因为在多线程环境中，频繁的同步操作可能会导致性能下降。</p></li><li><p><strong>避免混淆</strong>：如果<code>String</code>类不是<code>final</code>的，那么你可能会创建一个子类，这个子类可能会改变<code>String</code>对象的行为。这将导致混淆，因为你可能不确定一个<code>String</code>对象的行为是由<code>String</code>类本身定义的，还是由它的子类定义的。通过将<code>String</code>类设计为<code>final</code>，你可以避免这种混淆。</p></li><li><p><strong>避免继承导致的问题</strong>：如果<code>String</code>类不是<code>final</code>的，那么你可能会创建一个子类，这个子类可能会改变<code>String</code>对象的行为。这将导致一些问题，例如，如果你创建了一个子类，并将它与<code>String</code>对象进行比较，那么你可能会得到一个意外的结果。通过将<code>String</code>类设计为 <code>final</code>，你可以避免这些问题。</p></li></ol><p>总的来说，<code>String</code>类被设计为<code>final</code>类，是为了保证它的安全性、性能和行为的一致性。</p><p>CSDN 某同学的回答：</p><p>一旦 string 类可改变了。将违背 java 设计规则，即 hashcode 不同，equals 一定也不同。hashcode 相同，equals 可能相同。违背设计规则后，很多类的特性将失效。比如 set 集合，是不允许出现重复数据的。而强行改变 s 的值后，set 不许出现重复数据的特性将失效。</p><h3 id="推荐文章"><a href="#推荐文章" class="headerlink" title="推荐文章"></a>推荐文章</h3><p>CSDN博客：<a href="https://blog.csdn.net/efggfxfvhh/article/details/126520262">https://blog.csdn.net/efggfxfvhh/article/details/126520262</a></p><h2 id="欢迎交流"><a href="#欢迎交流" class="headerlink" title="欢迎交流"></a>欢迎交流</h2><p>通过阅读本文，你应该知道了为什么 String 要设计成 final 类，面试中你可能会回答为什么 String 不能被重写，String 底层原理是什么？但是关于为什么会被设计成 final 类可能会缺少了解，本文将会对你有所帮助。我在下面抛出以下几个问题，欢迎大家在评论区进行留言！</p><p>1.除了 String 类，Java 中还有哪些类被设计为 final 类？</p><p>2.在多线程环境中，如果 String 类不是 final，那么它的实例是否可以被多个线程安全共享？</p><p>3.如果 String 类不是 final 的，那么它的子类是否可以被用于替代 String 类？</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> -后端学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> -Java基础 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>数据库事务的 ACID 特性</title>
       <link href="/2024/03/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%20ACID%20%E7%89%B9%E6%80%A7/"/>
       <url>/2024/03/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%20ACID%20%E7%89%B9%E6%80%A7/</url>
